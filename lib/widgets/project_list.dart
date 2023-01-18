@@ -328,7 +328,7 @@ class _ProjectListState extends State<ProjectList> {
                       labelText: "",
                       textInputType: TextInputType.text,
                       validator: (value) => nameValidator(
-                          value, context, "please fill description"),
+                          value, context, "please description"),
                     ),
                   )
                 ],
