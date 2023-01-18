@@ -53,7 +53,7 @@ class _DprMapPageState extends State<DprMapPage> {
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        title: Text("DPR MAP"),
+        title: Text("DPR MAPs"),
       ),
       body: Column(
         children: [
