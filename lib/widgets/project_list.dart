@@ -1,6 +1,7 @@
 import 'package:dpr_dumy/constant/validator.dart';
 import 'package:dpr_dumy/model/dpr_view_model.dart';
 import 'package:dpr_dumy/services/api_service.dart';
+import 'package:dpr_dumy/widgets/web_file_picker.dart';
 import 'package:flutter/material.dart';
 import '../constant/custom_inputtextfield.dart';
 import 'dart:html';
@@ -124,7 +125,7 @@ class _ProjectListState extends State<ProjectList> {
       onTap: () {},
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        padding: EdgeInsets.all(8.0),
+        padding: EdgeInsets.symmetric(horizontal: 10),
         height: size.height * 0.06,
         width: size.width,
         decoration: BoxDecoration(
@@ -136,13 +137,16 @@ class _ProjectListState extends State<ProjectList> {
               "data",
               style: TextStyle(fontSize: 20, color: Colors.grey),
             ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Colors.red),
-                onPressed: () {},
-                child: Text(
-                  "Delete",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ))
+            Container(
+              padding: EdgeInsets.all(6.0),
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: Colors.red),
+                  onPressed: () {},
+                  child: Text(
+                    "Delete",
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  )),
+            )
           ],
         ),
       ),
@@ -330,160 +334,7 @@ class _ProjectListState extends State<ProjectList> {
   }
 
   Widget Import(Size size) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Import",
-              style: TextStyle(color: Colors.grey),
-            ),
-          ),
-          Container(
-            width: size.width * 0.8,
-            height: size.height * 0.001,
-            color: Colors.black12,
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 30.0),
-                    child: Text("Manpower(Yesterday)"),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Container(
-                    height: size.height * 0.06,
-                    width: size.width * 0.3,
-                    padding: EdgeInsets.only(left: 30, right: 50),
-                    child: CustomTextFormFields(
-                        size: size,
-                        controller: controller,
-                        hintText: "Select manpower type"),
-                  )
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 30.0),
-                    child: Text("Change reason for plan FTM"),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Container(
-                    height: size.height * 0.1,
-                    width: size.width * 0.3,
-                    padding: EdgeInsets.only(left: 30, right: 50),
-                    child: DescriptionField(
-                      size: size,
-                      controller: controller,
-                      hintText: "",
-                      labelText: "",
-                      textInputType: TextInputType.text,
-                      validator: (value) =>
-                          nameValidator(value, context, "please description"),
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
-          SizedBox(
-            height: 18,
-          ),
-          Container(
-            height: size.height * 0.07,
-            width: size.width * 0.8,
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue, width: 1),
-                borderRadius: BorderRadius.circular(4)),
-            child: Row(
-              children: [
-                Container(
-                  height: size.height * 0.07,
-                  width: size.width * 0.04,
-                  color: Colors.blue,
-                  child: Center(
-                    child: Icon(
-                      Icons.info,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                RichText(
-                    text: TextSpan(children: [
-                  TextSpan(
-                      text: "Please select and upload the ",
-                      style: TextStyle(
-                        color: Colors.blue,
-                      )),
-                  TextSpan(
-                      text: "  Data File",
-                      style: TextStyle(
-                          color: Colors.blue, fontWeight: FontWeight.bold)),
-                  TextSpan(
-                      text: "  only .xls or .xlsx files are accepted",
-                      style: TextStyle(
-                          color: Colors.red, fontWeight: FontWeight.w400))
-                ]))
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 18,
-          ),
-          Row(
-            children: [
-              Container(
-                  alignment: Alignment.centerLeft,
-                  height: size.height * 0.05,
-                  width: size.width * 0.3,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black26, width: 1),
-                      borderRadius: BorderRadius.circular(4)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Text("Upload exel file with data"),
-                  )),
-              SizedBox(
-                width: 8,
-              ),
-              ElevatedButton(onPressed: () {}, child: Text("Upload Exel File"))
-            ],
-          ),
-          SizedBox(
-            height: 18,
-          ),
-          ElevatedButton(
-              onPressed: () {},
-              child: Container(
-                  height: size.height * 0.06,
-                  width: size.width * 0.12,
-                  child: Center(
-                      child: Text(
-                    "Execute",
-                    style: TextStyle(fontSize: 18, color: Colors.white),
-                  ))))
-        ],
-      ),
-    );
+    return WebFilePicker();
   }
 
   Widget DprLog() {
