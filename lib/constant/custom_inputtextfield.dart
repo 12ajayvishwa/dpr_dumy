@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'decoration.dart';
+
 class CustomTextFormFields extends StatelessWidget {
   final Size size;
   final TextEditingController controller;
@@ -17,7 +19,7 @@ class CustomTextFormFields extends StatelessWidget {
     Key? key,
     required this.size,
     required this.controller,
-     this.validator,
+    this.validator,
     required this.hintText,
     this.textInputType,
     this.labelText,
@@ -33,14 +35,16 @@ class CustomTextFormFields extends StatelessWidget {
     return Stack(
       children: [
         Container(
-            height: size.height * 0.06  ,
+            height: size.height * 0.06,
             width: size.width * 0.8,
             decoration:
                 BoxDecoration(borderRadius: BorderRadius.circular(8.0))),
         TextFormField(
-
           maxLength: maxLength,
-          style: const TextStyle(fontFamily: "oswald", color: Colors.black),
+          style: const TextStyle(
+            fontFamily: "oswald",
+            color: Colors.black,
+          ),
           textAlign: TextAlign.start,
           textAlignVertical: TextAlignVertical.bottom,
           autofocus: false,
@@ -62,45 +66,7 @@ class CustomTextFormFields extends StatelessWidget {
       ],
     );
   }
-  InputDecoration inputDecoration(String hintText,{IconButton? iconButton, Widget? prefixIcon, String? labelText,}){
-  return InputDecoration(
-      contentPadding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 15.0),
-      hintText: hintText,
-      labelText: labelText,
-      counterText: "",
-      labelStyle: const TextStyle(
-          fontFamily: "oswald",
-          fontSize: 18,
-          fontWeight: FontWeight.normal,
-          color: Colors.black87),
-      hintStyle: const TextStyle(
-          fontFamily: "oswald",
-          fontSize: 16,
-          fontWeight: FontWeight.normal,
-          color: Color.fromRGBO(168, 167, 167, 1)),
-      
-          prefixIcon: prefixIcon,
-          suffixIcon: iconButton,
-      filled: false,
-      fillColor: const Color(0xFFF5F7FB),
-      enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Colors.grey)),
-      focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Colors.grey)),
-      errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Colors.grey)),
-      focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Colors.grey)),
-      border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Colors.grey)));
-  }
 }
-
 
 class DescriptionField extends StatelessWidget {
   final Size size;
@@ -147,42 +113,49 @@ class DescriptionField extends StatelessWidget {
       ),
     );
   }
-  InputDecoration inputDecoration(String hintText,{IconButton? iconButton, Widget? prefixIcon, String? labelText,}){
-  return InputDecoration(
-      contentPadding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 15.0),
-      hintText: hintText,
-      labelText: labelText,
-      counterText: "",
-      labelStyle: const TextStyle(
-          fontFamily: "oswald",
-          fontSize: 18,
-          fontWeight: FontWeight.normal,
-          color: Colors.black87),
-      hintStyle: const TextStyle(
-          fontFamily: "oswald",
-          fontSize: 16,
-          fontWeight: FontWeight.normal,
-          color: Color.fromRGBO(168, 167, 167, 1)),
-      
-          prefixIcon: prefixIcon,
-          suffixIcon: iconButton,
-      filled: false,
-      fillColor: const Color(0xFFF5F7FB),
-      enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Colors.grey)),
-      focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Colors.grey)),
-      errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Colors.grey)),
-      focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Colors.grey)),
-      border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: const BorderSide(color: Colors.grey)));
-  }
+}
 
+class Dob_PickerFormFields extends StatelessWidget {
+  final Size size;
+  final TextEditingController? controller;
+  final String? hintText;
+  final String? labelText;
+  final FormFieldValidator? validator;
+  final Widget? prefixIcon;
+  final void Function()? onTap;
+
+  const Dob_PickerFormFields({
+    Key? key,
+    required this.size,
+    this.controller,
+    this.hintText,
+    this.onTap,
+    this.validator,
+    this.labelText,
+    this.prefixIcon,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+            height: size.height * 0.05,
+            width: size.width * 0.98,
+            decoration:
+                BoxDecoration(borderRadius: BorderRadius.circular(8.0))),
+        TextFormField(
+          controller: controller,
+          textInputAction: TextInputAction.next,
+          keyboardType: TextInputType.datetime,
+          style: const TextStyle(fontFamily: "oswald", color: Colors.black),
+          onTap: onTap,
+          validator: validator,
+          readOnly: true,
+          decoration: inputDecoration(hintText!,
+              labelText: labelText, prefixIcon: prefixIcon),
+        ),
+      ],
+    );
+  }
 }

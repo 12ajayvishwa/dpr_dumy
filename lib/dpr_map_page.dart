@@ -1,3 +1,4 @@
+import 'package:dpr_dumy/widgets/dpr_reports.dart';
 import 'package:dpr_dumy/widgets/project_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -54,6 +55,13 @@ class _DprMapPageState extends State<DprMapPage> {
         elevation: 0,
         centerTitle: true,
         title: Text("DPR MAP"),
+        actions: [
+          ElevatedButton(
+            
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (_) => DprReport()));
+            }, child: Text("DPR report"))
+        ],
       ),
       body: Column(
         children: [

@@ -1,7 +1,9 @@
 import 'package:dpr_dumy/constant/validator.dart';
+import 'package:dpr_dumy/model/dpr_view_model.dart';
+import 'package:dpr_dumy/services/api_service.dart';
 import 'package:flutter/material.dart';
-
 import '../constant/custom_inputtextfield.dart';
+import 'dart:html';
 
 class ProjectList extends StatefulWidget {
   const ProjectList({super.key});
@@ -37,12 +39,50 @@ class _ProjectListState extends State<ProjectList> {
 
   final formKey = GlobalKey<FormState>();
 
+  File? file;
+  _startFilePicker() async {
+    FileUploadInputElement uploadInput = FileUploadInputElement();
+    uploadInput.click();
+
+    uploadInput.onChange.listen((e) {
+      // read file content as dataURL
+      final files = uploadInput.files;
+      if (files!.length == 1) {
+        final file = files[0];
+        FileReader reader =  FileReader();
+
+        reader.onLoadEnd.listen((e) {
+                    setState(() {
+                      
+                    });
+        });
+
+        reader.onError.listen((fileEvent) {
+          setState(() {
+          
+          });
+        });
+
+        reader.readAsArrayBuffer(file);
+      }
+    });
+    }
+
   void validateAndSubmit(BuildContext context) {
     if (formKey.currentState!.validate()) {
+      print(valueController.text);
     } else {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Something wrong")));
     }
+  }
+
+  Future<DPRViewModel>? getDPRView;
+
+  @override
+  void initState() {
+    getDPRView = ApiService().dprView();
+    super.initState();
   }
 
   @override
@@ -154,112 +194,139 @@ class _ProjectListState extends State<ProjectList> {
 
   Widget DprConfig() {
     return Container(
-      child: Text("data"),
+      child: Center(child: Text("data")),
     );
   }
 
   Widget DprMap(
     Size size,
   ) {
-    return Container(
-      padding: EdgeInsets.only(top: 10, bottom: 10),
-      child: SingleChildScrollView(
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "DPR Map",
-                  style: TextStyle(color: Colors.grey),
+    return FutureBuilder<DPRViewModel>(
+        future: getDPRView,
+        builder: (context, snap) {
+          controller.text = snap.data!.data!.sheetName!;
+          dataDateController.text = snap.data!.data!.dataDate!.cellValue!;
+          dataDateOldController.text = snap.data!.data!.dataDate!.rowPosition!.toString();
+          dataDateNewController.text = snap.data!.data!.dataDate!.rowNewPosition!.toString();
+          planScopController.text = snap.data!.data!.totalScope!.cellValue!;
+          planScopOldController.text = snap.data!.data!.totalScope!.rowPosition!.toString();
+          planScopNewController.text = snap.data!.data!.totalScope!.rowNewPosition!.toString();
+          actualController.text = snap.data!.data!.actulaTillDate!.cellValue!;
+          actualOldController.text = snap.data!.data!.actulaTillDate!.rowPosition!.toString();
+          actualNewController.text = snap.data!.data!.actulaTillDate!.rowNewPosition!.toString();
+          planFTMController.text = snap.data!.data!.planFTM!.cellValue!;
+          planFTMOldController.text = snap.data!.data!.planFTM!.rowPosition!.toString();
+          planFTMNewController.text = snap.data!.data!.planFTM!.rowNewPosition!.toString();
+          actualFTMController.text = snap.data!.data!.actualFTM!.cellValue!;
+          actualFTMOldController.text = snap.data!.data!.actualFTM!.rowPosition!.toString();
+          actualFTMNewController.text = snap.data!.data!.actualFTM!.rowNewPosition!.toString();
+          todayController.text = snap.data!.data!.today!.cellValue!;
+          todayOldController.text = snap.data!.data!.today!.rowPosition!.toString();
+          todayNewController.text = snap.data!.data!.today!.rowNewPosition!.toString();
+          dwgAvailController.text = snap.data!.data!.dWGAvail!.cellValue!;
+          dwgAvailOldController.text = snap.data!.data!.dWGAvail!.rowPosition!.toString();
+          dwgAvailNewController.text = snap.data!.data!.dWGAvail!.rowNewPosition!.toString();
+
+
+
+          return Container(
+            padding: EdgeInsets.only(top: 10, bottom: 10),
+            child: SingleChildScrollView(
+              child: Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "DPR Map",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Text("Sheet Name :"),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Container(
+                            width: size.width * 0.2,
+                            height: size.height * 0.06,
+                            child: CustomTextFormFields(
+                                size: size,
+                                controller: controller,
+                                hintText: "Overall Progress",
+                                validator: (value) => nameValidator(value,
+                                    context, "Please enter project name"))),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    BuildMapInput(
+                      size: size,
+                      valueController: dataDateController,
+                      oldPositionController: dataDateOldController,
+                      newPositionController: dataDateNewController,
+                      title: "Data Date :",
+                    ),
+                    BuildMapInput(
+                      size: size,
+                      valueController: planScopController,
+                      oldPositionController: planScopOldController,
+                      newPositionController: planScopNewController,
+                      title: "Plan Scop :",
+                    ),
+                    BuildMapInput(
+                      size: size,
+                      valueController:actualController,
+                      oldPositionController:actualOldController,
+                      newPositionController:actualNewController,
+                      title: "Actual :",
+                    ),
+                    BuildMapInput(
+                      size: size,
+                      valueController: planFTMController,
+                      oldPositionController: planFTMOldController,
+                      newPositionController: planFTMNewController,
+                      title: "Plan FTM :",
+                    ),
+                    BuildMapInput(
+                      size: size,
+                      valueController: actualFTMController,
+                      oldPositionController: actualFTMOldController,
+                      newPositionController: actualFTMNewController,
+                      title: "Actual FTM :",
+                    ),
+                    BuildMapInput(
+                      size: size,
+                      valueController: todayController,
+                      oldPositionController: todayOldController,
+                      newPositionController: todayNewController,
+                      title: "Today :",
+                    ),
+                    BuildMapInput(
+                      size: size,
+                      valueController: dwgAvailController,
+                      oldPositionController: dwgAvailOldController,
+                      newPositionController: dwgAvailNewController,
+                      title: "DWG Avail :",
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            validateAndSubmit(context);
+                          },
+                          child: Text("Submit DPR map")),
+                    )
+                  ],
                 ),
               ),
-              Row(
-                children: [
-                  Text("Sheet Name "),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Container(
-                      width: size.width * 0.2,
-                      height: size.height * 0.05,
-                      child: CustomTextFormFields(
-                        size: size,
-                        controller: controller,
-                        hintText: "Overall Progress",
-                        //validator: (value) => nameValidator(value, context,"Please enter project name")
-                      )),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              BuildMapInput(
-                size: size,
-                valueController: dataDateController,
-                oldPositionController: dataDateOldController,
-                newPositionController: dataDateNewController,
-                title: "Data Date",
-              ),
-              BuildMapInput(
-                size: size,
-                valueController: planScopController,
-                oldPositionController: planScopOldController,
-                newPositionController: planScopNewController,
-                title: "Plan Scop",
-              ),
-              BuildMapInput(
-                size: size,
-                valueController: actualController,
-                oldPositionController: actualOldController,
-                newPositionController: actualNewController,
-                title: "Actual",
-              ),
-              BuildMapInput(
-                size: size,
-                valueController: planFTMController,
-                oldPositionController: planFTMOldController,
-                newPositionController: planFTMNewController,
-                title: "Plan FTM",
-              ),
-              BuildMapInput(
-                size: size,
-                valueController: actualController,
-                oldPositionController: actualOldController,
-                newPositionController: actualNewController,
-                title: "Actual FTM",
-              ),
-              BuildMapInput(
-                size: size,
-                valueController: todayController,
-                oldPositionController: todayOldController,
-                newPositionController: todayNewController,
-                title: "Today",
-              ),
-              BuildMapInput(
-                size: size,
-                valueController: dwgAvailController,
-                oldPositionController: dwgAvailOldController,
-                newPositionController: dwgAvailNewController,
-                title: "DWG Avail",
-              ),
-              Container(
-                alignment: Alignment.center,
-                child: ElevatedButton(
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        return null;
-                      }
-                    },
-                    child: Text("Submit DPR map")),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          );
+        });
   }
 
   Widget Import(Size size) {
@@ -327,8 +394,8 @@ class _ProjectListState extends State<ProjectList> {
                       hintText: "",
                       labelText: "",
                       textInputType: TextInputType.text,
-                      validator: (value) => nameValidator(
-                          value, context, "please description"),
+                      validator: (value) =>
+                          nameValidator(value, context, "please description"),
                     ),
                   )
                 ],
@@ -350,11 +417,70 @@ class _ProjectListState extends State<ProjectList> {
                   height: size.height * 0.07,
                   width: size.width * 0.04,
                   color: Colors.blue,
-                  child: Center(child: Icon(Icons.info,color: Colors.white,),),
-                )
+                  child: Center(
+                    child: Icon(
+                      Icons.info,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                RichText(
+                    text: TextSpan(children: [
+                  TextSpan(
+                      text: "Please select and upload the ",
+                      style: TextStyle(
+                        color: Colors.blue,
+                      )),
+                  TextSpan(
+                      text: "  Data File",
+                      style: TextStyle(
+                          color: Colors.blue, fontWeight: FontWeight.bold)),
+                  TextSpan(
+                      text: "  only .xls or .xlsx files are accepted",
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.w400))
+                ]))
               ],
             ),
-          )
+          ),
+          SizedBox(
+            height: 18,
+          ),
+          Row(
+            children: [
+              Container(
+                  alignment: Alignment.centerLeft,
+                  height: size.height * 0.05,
+                  width: size.width * 0.3,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black26, width: 1),
+                      borderRadius: BorderRadius.circular(4)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text("Upload exel file with data"),
+                  )),
+              SizedBox(
+                width: 8,
+              ),
+              ElevatedButton(onPressed: () {}, child: Text("Upload Exel File"))
+            ],
+          ),
+          SizedBox(
+            height: 18,
+          ),
+          ElevatedButton(
+              onPressed: () {},
+              child: Container(
+                  height: size.height * 0.06,
+                  width: size.width * 0.12,
+                  child: Center(
+                      child: Text(
+                    "Execute",
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ))))
         ],
       ),
     );
@@ -362,13 +488,13 @@ class _ProjectListState extends State<ProjectList> {
 
   Widget DprLog() {
     return Container(
-      child: Text("data"),
+      child: Center(child: Text("data")),
     );
   }
 
   Widget DprDirect() {
     return Container(
-      child: Text("data"),
+      child: Center(child: Text("data")),
     );
   }
 }
@@ -388,6 +514,7 @@ class BuildMapInput extends StatelessWidget {
   TextEditingController oldPositionController;
   TextEditingController newPositionController;
   String title;
+  
   BuildMapInput(
       {Key? key,
       required this.size,
@@ -403,7 +530,7 @@ class BuildMapInput extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 20),
       child: Row(
         children: [
-          Expanded(child: Text(title + ":")),
+          Expanded(child: Text(title )),
           Expanded(
               flex: 2,
               child: Container(
@@ -412,7 +539,7 @@ class BuildMapInput extends StatelessWidget {
                   child: CustomTextFormFields(
                     size: size,
                     controller: valueController,
-                    hintText: "Overall Progress",
+                    hintText: "",
                   ))),
           Expanded(
               flex: 2,
@@ -422,7 +549,7 @@ class BuildMapInput extends StatelessWidget {
                   child: CustomTextFormFields(
                     size: size,
                     controller: oldPositionController,
-                    hintText: "Overall Progress",
+                    hintText: "",
                   ))),
           Expanded(
               flex: 2,
@@ -432,7 +559,7 @@ class BuildMapInput extends StatelessWidget {
                   child: CustomTextFormFields(
                     size: size,
                     controller: newPositionController,
-                    hintText: "Overall Progress",
+                    hintText: "",
                   ))),
         ],
       ),
