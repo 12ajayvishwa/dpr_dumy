@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:dpr_dumy/widgets/dpr_reports.dart';
 import 'package:dpr_dumy/widgets/project_list.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -60,11 +57,10 @@ class _DprMapPageState extends State<DprMapPage> {
         title: Text("DPR MAP"),
         actions: [
           ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => DprReport()));
-              },
-              child: Text("DPR report"))
+            
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (_) => DprReport()));
+            }, child: Text("DPR report"))
         ],
       ),
       body: Column(
@@ -194,9 +190,7 @@ class _DprMapPageState extends State<DprMapPage> {
                 SizedBox(
                   height: 30,
                 ),
-                ElevatedButton(onPressed: () {}, child: Text("+ Create")),
-                ElevatedButton(
-                    onPressed: _pickFiles, child: Text("Open web file picker")),
+                ElevatedButton(onPressed: () {}, child: Text("+ Create"))
               ],
             ),
           ),
@@ -204,19 +198,5 @@ class _DprMapPageState extends State<DprMapPage> {
         ],
       ),
     );
-  }
-
-  _pickFiles() async {
-    FilePickerResult? result =
-        await FilePicker.platform.pickFiles(allowMultiple: true);
-    if (result != null) {
-      result.files.forEach((element) {
-        // print(element.name);
-        print(element.path);
-      });
-    } else {
-      // User canceled the picker
-      print("user canceled the picker");
-    }
   }
 }
