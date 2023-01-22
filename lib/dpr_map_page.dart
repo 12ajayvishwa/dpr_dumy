@@ -1,3 +1,4 @@
+import 'package:dpr_dumy/open_file_picker.dart';
 import 'package:dpr_dumy/widgets/dpr_reports.dart';
 import 'package:dpr_dumy/widgets/project_list.dart';
 import 'package:flutter/material.dart';
@@ -190,7 +191,8 @@ class _DprMapPageState extends State<DprMapPage> {
                 SizedBox(
                   height: 30,
                 ),
-                ElevatedButton(onPressed: () {}, child: Text("+ Create"))
+                ElevatedButton(onPressed: () {}, child: Text("+ Create")),
+                const ElevatedButton(onPressed: CustomFilePicker.pickFiles, child: Text(" open files ")),
               ],
             ),
           ),
