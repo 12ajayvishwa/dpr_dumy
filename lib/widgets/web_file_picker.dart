@@ -280,6 +280,14 @@ class _WebFilePickerState extends State<WebFilePicker> {
     });
   }
 
+  // void _selectFileV2(context) async {
+  //   FilePickerResult? result = await FilePicker.platform
+  //       .pickFiles(allowMultiple: true)
+  //       .then((filePicker) {
+  //     setFilePicker(filePicker[0]);
+  //   });
+  // }
+
   void _selectSaveFile() {
     RenderBox renderBox =
         exportKey.currentContext!.findRenderObject() as RenderBox;
