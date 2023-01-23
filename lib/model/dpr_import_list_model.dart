@@ -1,11 +1,11 @@
-class Dpr_import_model {
+class DprImportList {
   bool? error;
   List<Data>? data;
   String? message;
 
-  Dpr_import_model({this.error, this.data, this.message});
+  DprImportList({this.error, this.data, this.message});
 
-  Dpr_import_model.fromJson(Map<String, dynamic> json) {
+  DprImportList.fromJson(Map<String, dynamic> json) {
     error = json['error'];
     if (json['data'] != null) {
       data = <Data>[];
@@ -30,7 +30,7 @@ class Dpr_import_model {
 class Data {
   String? date;
   String? workItem;
-  List<Data>? data;
+  List<Data1>? data;
 
   Data({this.date, this.workItem, this.data});
 
@@ -38,9 +38,9 @@ class Data {
     date = json['date'];
     workItem = json['work_item'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <Data1>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(new Data1.fromJson(v));
       });
     }
   }

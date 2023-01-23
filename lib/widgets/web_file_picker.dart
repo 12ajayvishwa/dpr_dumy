@@ -23,27 +23,27 @@ class _WebFilePickerState extends State<WebFilePicker> {
 
   FilePickerCross? filePickerCross;
 
-  FilePickerResult? result;
+  // FilePickerResult? result;
   String _fileString = '';
   String? lastFiles;
   FileQuotaCross quota = FileQuotaCross(quota: 10, usage: 0);
 
-  // @override
-  // void initState() {
-  //   FilePickerCross.listInternalFiles()
-  //       .then((value) => setState(() => lastFiles = value.toString()));
-  //   FilePickerCross.quota().then((value) => setState(() => quota = value));
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    FilePickerCross.listInternalFiles()
+        .then((value) => setState(() => lastFiles = value.toString()));
+    FilePickerCross.quota().then((value) => setState(() => quota = value));
+    super.initState();
+  }
 
-  // void submitExelFile(String path) async {
-  //   var res = await ExelImport().DprExelImport(path);
-  //   if (res == "Import Sucessfully") {
-  //     print("imported successfully");
-  //   } else {
-  //     print("Fials");
-  //   }
-  // }
+  void submitExelFile(String path) async {
+    var res = await ExelImport().DprExelImport(path);
+    if (res == "Import Sucessfully") {
+      print("imported successfully");
+    } else {
+      print("Fials");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,21 +179,23 @@ class _WebFilePickerState extends State<WebFilePicker> {
                       borderRadius: BorderRadius.circular(4)),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8.0),
-                    child: Text(result!.toString()),
+                    child: Text('${filePickerCross?.path ?? 'unknown'}'),
                   )),
               SizedBox(
                 width: 8,
               ),
               ElevatedButton(
-                  onPressed: () async {
-                    var picked = await FilePickerWeb.platform.pickFiles();
-                    if (picked != null) {
-                      print(picked.files.first.name);
-                      setState(() {
-                        result = picked;
-                      });
-                    }
-                  },
+                  onPressed: () => _selectFile(context),
+
+                    
+                    // var picked = await FilePickerWeb.platform.pickFiles();
+                    // if (picked != null) {
+                    //   print(picked.files.first.name);
+                    //   setState(() {
+                    //     result = picked;
+                    //   });
+                    // }
+                  
                   child: Text("Upload Exel File"))
             ],
           ),
@@ -202,7 +204,7 @@ class _WebFilePickerState extends State<WebFilePicker> {
           ),
           ElevatedButton(
               onPressed: () {
-                // submitExelFile(filePickerCross?.path ?? "unknown");
+                submitExelFile(filePickerCross?.path ?? "unknown");
               },
               child: Container(
                   height: size.height * 0.06,

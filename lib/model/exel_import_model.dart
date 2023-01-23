@@ -1,11 +1,11 @@
-class Exel_Import_Model {
+class ExelImportModel {
   bool? error;
   Data? data;
   String? message;
 
-  Exel_Import_Model({this.error, this.data, this.message});
+  ExelImportModel({this.error, this.data, this.message});
 
-  Exel_Import_Model.fromJson(Map<String, dynamic> json) {
+  ExelImportModel.fromJson(Map<String, dynamic> json) {
     error = json['error'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     message = json['message'];
