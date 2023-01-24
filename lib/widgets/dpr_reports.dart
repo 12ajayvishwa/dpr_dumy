@@ -20,18 +20,25 @@ class _DprReportState extends State<DprReport> {
 
   Stream<DprImportList>? getDPRList;
   
-  @override
-  void initState() {
-    getDPRList = ApiService().DprList(dateController.text);
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   getDPRList = ApiService().DprList(dateController.text);
+  //   super.initState();
+  // }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
+        child: 
+        
+        
+        
+        
+        
+        
+        Column(
           children: [
             Container(
               child: Row(
@@ -70,7 +77,7 @@ class _DprReportState extends State<DprReport> {
             StreamBuilder<DprImportList>(
               stream:  getDPRList,
               builder:(context, snapshot) {
-                return Text(snapshot.data!.data![0].data![0].achievedFTM.toString() ?? "");
+                return Text(snapshot.data!.data![0].data![0].achievedFTM.toString());
               },
               )
           ],
@@ -107,9 +114,13 @@ class _DprReportState extends State<DprReport> {
         dateController.text = formattedDate;
         // _dobController.text = formattedDate;
       });
-    } else {
+    } else { 
       print("Date in Not Selected");
       Fluttertoast.showToast(msg: "Date in Not Selected");
     }
   }
 }
+
+ int a = 65;
+ int b = 85;
+ 

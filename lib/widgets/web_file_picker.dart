@@ -2,6 +2,7 @@ import 'package:dpr_dumy/services/exel_import.dart';
 import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_picker_cross/file_picker_cross.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -22,28 +23,29 @@ class _WebFilePickerState extends State<WebFilePicker> {
   final changeReasonController = TextEditingController();
 
   FilePickerCross? filePickerCross;
+  Uint8List? filePath;
 
   // FilePickerResult? result;
   String _fileString = '';
   String? lastFiles;
   FileQuotaCross quota = FileQuotaCross(quota: 10, usage: 0);
 
-  @override
-  void initState() {
-    FilePickerCross.listInternalFiles()
-        .then((value) => setState(() => lastFiles = value.toString()));
-    FilePickerCross.quota().then((value) => setState(() => quota = value));
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   FilePickerCross.listInternalFiles()
+  //       .then((value) => setState(() => lastFiles = value.toString()));
+  //   FilePickerCross.quota().then((value) => setState(() => quota = value));
+  //   super.initState();
+  // }
 
-  void submitExelFile(String path) async {
-    var res = await ExelImport().DprExelImport(path);
-    if (res == "Import Sucessfully") {
-      print("imported successfully");
-    } else {
-      print("Fials");
-    }
-  }
+  // void submitExelFile(String path) async {
+  //   var res = await ExelImport().DprExelImport(path);
+  //   if (res == "Import Sucessfully") {
+  //     print("imported successfully");
+  //   } else {
+  //     print("Fials");
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -185,16 +187,18 @@ class _WebFilePickerState extends State<WebFilePicker> {
                 width: 8,
               ),
               ElevatedButton(
-                  onPressed: () => _selectFile(context),
+                  onPressed: () async{
 
                     
-                    // var picked = await FilePickerWeb.platform.pickFiles();
-                    // if (picked != null) {
-                    //   print(picked.files.first.name);
-                    //   setState(() {
-                    //     result = picked;
-                    //   });
-                    // }
+                    var picked = await FilePicker.platform.pickFiles();
+                    if (picked != null) {
+                      print('path name is ${picked.files.first.name}');
+                      print('path is ${picked.files.first.bytes}');
+                      setState(() {
+                        filePath = picked as Uint8List;
+                      });
+                    }
+                  },
                   
                   child: Text("Upload Exel File"))
             ],
@@ -204,7 +208,7 @@ class _WebFilePickerState extends State<WebFilePicker> {
           ),
           ElevatedButton(
               onPressed: () {
-                submitExelFile(filePickerCross?.path ?? "unknown");
+                // submitExelFile(filePickerCross?.path ?? "unknown");
               },
               child: Container(
                   height: size.height * 0.06,
