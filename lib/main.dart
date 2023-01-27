@@ -1,4 +1,5 @@
 import 'package:dpr_dumy/dpr_map_page.dart';
+import 'package:dpr_dumy/widgets/test.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const DprMapPage(),
+      home: const Test(),
     );
   }
 }
